@@ -1,0 +1,29 @@
+class Solution(object):
+    def twoSum(self, nums, target):
+      
+        dictionary = {}
+
+        
+        for i, num in enumerate(nums):
+           
+            complement = target - num
+            if complement in dictionary:
+               #program finds the first set of complement values doesnt matter if there are multiple sets in array
+                return [dictionary[complement], i]
+            else:
+               
+                dictionary[num] = i
+
+
+solution = Solution()
+nums1 = [2, 7, 11, 15]
+target1 = 9
+print(solution.twoSum(nums1, target1))  
+
+nums2 = [3, 2, 4]
+target2 = 6
+print(solution.twoSum(nums2, target2))  
+
+nums3 = [3, 3]
+target3 = 6
+print(solution.twoSum(nums3, target3))  
