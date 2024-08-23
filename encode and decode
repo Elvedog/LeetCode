@@ -1,0 +1,37 @@
+from typing import List
+
+class Solution:
+    def encode(self, strs: List[str]) -> str:
+        # Define a delimiter that is unlikely to be present in the strings
+        delimiter = "|"
+        # Encode each string by appending its length and the string itself
+        encoded_strs = [f"{len(s)}{delimiter}{s}" for s in strs]
+        # Join all encoded strings with another delimiter
+        return delimiter.join(encoded_strs)
+
+    def decode(self, s: str) -> List[str]:
+        # Define the delimiter used in encoding
+        delimiter = "|"
+        # Split the encoded string by the delimiter
+        parts = s.split(delimiter)
+        decoded_strs = []
+        
+        i = 0
+        while i < len(parts):
+            # Length of the current string
+            length = int(parts[i])
+            # The actual string
+            decoded_strs.append(parts[i + 1])
+            # Move to the next part of the string
+            i += 2
+            
+        return decoded_strs
+
+# Example usage
+solution = Solution()
+original_list = ["neet", "code", "love", "you"]
+encoded = solution.encode(original_list)
+print(f"Encoded: {encoded}")
+
+decoded = solution.decode(encoded)
+print(f"Decoded: {decod
