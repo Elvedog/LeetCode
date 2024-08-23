@@ -1,0 +1,20 @@
+from typing import List
+from collections import Counter
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # Step 1: Count the frequency of each element in nums using Counter
+        frequency = Counter(nums)
+
+        # Step 2: Use the most_common method to get the k most frequent elements
+        most_common_elements = frequency.most_common(k)
+
+        # Step 3: Extract just the elements from the tuples returned by most_common
+        result = [element for element, count in most_common_elements]
+
+        return result
+
+nums =[1,2,2,3,3]
+solution=Solution()
+solve = solution.topKFrequent(nums,2)
+print(solve)
