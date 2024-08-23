@@ -1,0 +1,45 @@
+from collections import defaultdict  # Import defaultdict from the collections module
+from typing import List  # Import List for type annotations
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        """
+        Groups anagrams from the given list of strings.
+
+        Parameters:
+        - strs: List[str]: A list of strings to group.
+
+        Returns:
+        - List[List[str]]: A list of lists, where each inner list contains strings that are anagrams of each other.
+        """
+
+        # Create a defaultdict where each key is mapped to a list by default.
+        # This dictionary will store lists of anagrams under the same sorted string key.
+        anagram_dict = defaultdict(list)
+        
+        # Iterate over each string in the input list `strs`.
+        for string in strs:
+            # Sort the characters of the string alphabetically.
+            # This will allow us to use the sorted string as a key to group anagrams.
+            sorted_string = ''.join(sorted(string))
+            
+            # Append the original string to the list in `anagram_dict` that corresponds
+            # to the `sorted_string` key.
+            # If the key doesn't exist, `defaultdict` creates it automatically as an empty list.
+            anagram_dict[sorted_string].append(string)
+        
+        # Convert the values of `anagram_dict` to a list. Each value is a list of anagrams.
+        # We return this list of lists as the final result.
+        return list(anagram_dict.values())
+
+# Example usage:
+solution = Solution()  # Create an instance of the Solution class
+
+# Define the input list of strings
+input_strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+
+# Call the method to group anagrams
+output = solution.groupAnagrams(input_strs)
+
+# Print the result, e.g., [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+print(output)
