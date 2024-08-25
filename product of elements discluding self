@@ -1,0 +1,23 @@
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)  # Get the length of the input list
+        
+        # Initialize the output array with 1s
+        # This array will eventually hold the product of all elements except the one at each index
+        output = [1] * n
+        
+        # Step 1: Calculate the product of all elements to the left of each index
+        left_product = 1  # Start with a left product of 1 (since there's no element to the left of the first element)
+        for i in range(n):
+            output[i] = left_product  # Set the current index in output to the left product so far
+            left_product *= nums[i]   # Update left_product to include the current element
+        
+        # Step 2: Calculate the product of all elements to the right of each index
+        # and multiply it with the corresponding left product
+        right_product = 1  # Start with a right product of 1 (since there's no element to the right of the last element)
+        for i in range(n - 1, -1, -1):  # Iterate from the last index to the first
+            output[i] *= right_product  # Multiply the current index in output with the right product so far
+            right_product *= nums[i]    # Update right_product to include the current element
+        
+        # The output array now contains the product of all elements except the one at each index
+        return output
