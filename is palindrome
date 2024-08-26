@@ -1,0 +1,10 @@
+import re
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        # Step 1: Normalize the string
+        # Convert to lowercase and remove non-alphanumeric characters
+        cleaned_s = re.sub(r'[^a-z0-9]', '', s.lower())
+        
+        # Step 2: Check if the cleaned string is a palindrome
+        return cleaned_s == cleaned_s[::-1]
