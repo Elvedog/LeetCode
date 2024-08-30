@@ -1,36 +1,47 @@
 class Solution:
     def threeSum(self, nums):
-        # First, sort the array
+        # Step 1: Sort the array
         nums.sort()
+        # Initialize an empty list to store the result
         res = []
         
-        # Iterate through the array, treating each element as the first element of the triplet
+        # Step 2: Iterate through the array
         for i in range(len(nums)):
-            # Skip duplicates
+            # Step 2.1: Skip duplicates for the first element
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
             
-            # Use two pointers to find the other two elements
+            # Step 2.2: Initialize two pointers
             left, right = i + 1, len(nums) - 1
+            
+            # Step 2.3: Use two pointers to find the other two elements
             while left < right:
+                # Calculate the total sum of the triplet
                 total = nums[i] + nums[left] + nums[right]
                 
+                # Step 2.3.1: Check if the total sum is zero
                 if total == 0:
+                    # Add the triplet to the result list
                     res.append([nums[i], nums[left], nums[right]])
+                    # Move both pointers inward
                     left += 1
                     right -= 1
                     
-                    # Skip duplicates for the second element
+                    # Step 2.3.2: Skip duplicates for the second element
                     while left < right and nums[left] == nums[left - 1]:
                         left += 1
                     
-                    # Skip duplicates for the third element
+                    # Step 2.3.3: Skip duplicates for the third element
                     while left < right and nums[right] == nums[right + 1]:
                         right -= 1
                 
+                # Step 2.3.4: Adjust pointers based on the total sum
                 elif total < 0:
+                    # If the total is less than zero, move the left pointer to increase the total
                     left += 1
                 else:
+                    # If the total is greater than zero, move the right pointer to decrease the total
                     right -= 1
         
+        # Return the list of triplets
         return res
