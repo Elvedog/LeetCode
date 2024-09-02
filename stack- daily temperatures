@@ -1,0 +1,23 @@
+from typing import List
+
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # Initialize a stack to keep track of indices of unresolved temperatures
+        stack = []
+        
+        # Initialize the result array with zeros
+        result = [0] * len(temperatures)
+        
+        # Iterate through each temperature in the list
+        for i, current_temp in enumerate(temperatures):
+            # Check if the current temperature resolves any previous days
+            while stack and temperatures[stack[-1]] < current_temp:
+                # Pop the index from the stack (this is a day we can now resolve)
+                prev_day_index = stack.pop()
+                # The difference between the current day and the previous day is the answer
+                result[prev_day_index] = i - prev_day_index
+            
+            # Push the current day's index onto the stack
+            stack.append(i)
+        
+        return result
