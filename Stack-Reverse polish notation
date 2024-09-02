@@ -1,0 +1,30 @@
+from typing import List
+
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        # Initialize an empty stack
+        stack = []
+        
+        # Define the operations in a dictionary
+        operations = {
+            '+': lambda x, y: x + y,
+            '-': lambda x, y: x - y,
+            '*': lambda x, y: x * y,
+            '/': lambda x, y: int(x / y)  # Use int() to truncate towards zero
+        }
+        
+        # Iterate through each token in the input list
+        for token in tokens:
+            if token in operations:
+                # If the token is an operator, pop two numbers from the stack
+                right = stack.pop()
+                left = stack.pop()
+                # Apply the operation and push the result back onto the stack
+                result = operations[token](left, right)
+                stack.append(result)
+            else:
+                # If the token is a number, convert it to an integer and push it onto the stack
+                stack.append(int(token))
+        
+        # The final result will be the only element left in the stack
+        return stack[0]
