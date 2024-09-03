@@ -1,0 +1,46 @@
+#You are given an m x n 2-D integer array matrix and an integer target.
+
+Each row in matrix is sorted in non-decreasing order.
+The first integer of every row is greater than the last integer of the previous row.
+Return true if target exists within matrix or false otherwise.
+
+Can you write a solution that runs in O(log(m * n)) time?
+
+from typing import List
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # Get the number of rows (m) and columns (n) in the matrix
+        m, n = len(matrix), len(matrix[0])
+        
+        # Initialize the binary search range
+        # Left pointer starts at the first index of the imaginary 1D array (0)
+        # Right pointer starts at the last index of the imaginary 1D array (m * n - 1)
+        left, right = 0, m * n - 1
+        
+        # Perform binary search
+        while left <= right:
+            # Calculate the middle index of the current search range
+            mid = left + (right - left) // 2
+            
+            # Convert the middle index of the imaginary 1D array to 2D matrix coordinates
+            row = mid // n  # Calculate the row by dividing mid by the number of columns
+            col = mid % n   # Calculate the column by taking the remainder of mid divided by the number of columns
+            
+            # Get the value at the calculated row and column in the matrix
+            mid_val = matrix[row][col]
+            
+            # If the middle value is equal to the target, we've found the target
+            if mid_val == target:
+                return True
+            
+            # If the middle value is less than the target, discard the left half
+            elif mid_val < target:
+                left = mid + 1  # Move the left pointer to the right of mid
+            
+            # If the middle value is greater than the target, discard the right half
+            else:
+                right = mid - 1  # Move the right pointer to the left of mid
+        
+        # If the loop exits, the target was not found in the matrix
+        return False
