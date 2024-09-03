@@ -1,0 +1,21 @@
+from typing import List
+
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        # Pair up position and speed, then sort them by position in descending order
+        cars = sorted(zip(position, speed), reverse=True)
+        
+        fleets = 0  # Number of fleets
+        time_to_reach_destination = 0  # Time taken by the last fleet to reach the destination
+        
+        for pos, spd in cars:
+            # Calculate time to reach the destination for the current car
+            current_time = (target - pos) / spd
+            
+            # If the current car takes more time than the last one (in time_to_reach_destination),
+            # it forms a new fleet
+            if current_time > time_to_reach_destination:
+                fleets += 1
+                time_to_reach_destination = current_time
+        
+        return fleets
