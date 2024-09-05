@@ -1,0 +1,40 @@
+#Implement a time-based key-value data structure that supports:
+Storing multiple values for the same key at specified time stamps
+Retrieving the key's value at a specified timestamp
+Implement the TimeMap class:
+TimeMap() Initializes the object.
+void set(String key, String value, int timestamp) Stores the key key with the value value at the given time timestamp.
+String get(String key, int timestamp) Returns the most recent value of key if set was previously called on it and the most recent timestamp for that key prev_timestamp is less than or equal to the given timestamp (prev_timestamp <= timestamp). If there are no values, it returns "".
+Note: For all calls to set, the timestamps are in strictly increasing order.
+
+import bisect
+
+class TimeMap:
+
+    def __init__(self):
+        # Dictionary to store key -> list of (timestamp, value) pairs
+        self.store = {}
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        # If the key doesn't exist, initialize it with an empty list
+        if key not in self.store:
+            self.store[key] = []
+        # Append the (timestamp, value) pair to the list for the given key
+        self.store[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        # If the key doesn't exist, return an empty string
+        if key not in self.store:
+            return ""
+        
+        # Get the list of (timestamp, value) pairs for the key
+        values = self.store[key]
+        
+        # Perform binary search to find the rightmost timestamp <= given timestamp
+        i = bisect.bisect_right(values, (timestamp, chr(127))) - 1
+        
+        # If the index is valid (i.e., within bounds), return the corresponding value
+        if i >= 0:
+            return values[i][1]
+        # Otherwise, no valid timestamp was found, return an empty string
+        return ""
