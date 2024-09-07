@@ -1,0 +1,33 @@
+You are given the heads of two sorted linked lists list1 and list2.
+Merge the two lists into one sorted linked list and return the head of the new sorted linked list.
+The new list should be made up of nodes from list1 and list2.
+
+
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # Create a dummy node to help with easily returning the head of the new list
+        dummy = ListNode(-1)
+        # This pointer will help us build the new list
+        current = dummy
+        
+        # While both list1 and list2 are non-empty, compare the values at the heads
+        while list1 and list2:
+            if list1.val <= list2.val:
+                # If list1's value is smaller or equal, attach it to the current node
+                current.next = list1
+                # Move list1's pointer to the next node
+                list1 = list1.next
+            else:
+                # If list2's value is smaller, attach it to the current node
+                current.next = list2
+                # Move list2's pointer to the next node
+                list2 = list2.next
+            # Move the current pointer to the newly added node
+            current = current.next
+        
+        # At the end of the loop, at least one of the lists will be exhausted
+        # Attach the remaining part of the non-exhausted list to the end of the merged list
+        current.next = list1 if list1 else list2
+        
+        # The merged list starts after the dummy node
+        return dummy.next
