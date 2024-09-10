@@ -1,0 +1,63 @@
+You are given the head of a singly linked-list.
+The positions of a linked list of length = 7 for example, can intially be represented as:
+[0, 1, 2, 3, 4, 5, 6]
+Reorder the nodes of the linked list to be in the following order:
+[0, 6, 1, 5, 2, 4, 3]
+Notice that in the general case for a list of length = n the nodes are reordered to be in the following order:
+[0, n-1, 1, n-2, 2, n-3, ...]
+You may not modify the values in the list's nodes, but instead you must reorder the nodes themselves.
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        # Base case: if the list is empty or has only one element, no reordering is needed
+        if not head or not head.next:
+            return
+        
+        # Step 1: Find the middle of the linked list using slow and fast pointers
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next         # Slow pointer moves one step at a time
+            fast = fast.next.next    # Fast pointer moves two steps at a time
+        
+        # At the end of this loop, `slow` will be at the middle of the list.
+        # The list is now conceptually split into two halves:
+        # - The first half starts from `head` and ends at `slow`.
+        # - The second half starts from `slow` and goes to the end of the list.
+        
+        # Step 2: Reverse the second half of the list
+        prev, curr = None, slow
+        while curr:
+            # Save the next node
+            next_temp = curr.next
+            # Reverse the current node's pointer
+            curr.next = prev
+            # Move the previous and current pointers one step forward
+            prev = curr
+            curr = next_temp
+        
+        # After reversing, `prev` will be the new head of the reversed second half.
+        # Now, we have two lists:
+        # - The first half (still in the original order): starts from `head` to the node just before `slow`.
+        # - The second half (now reversed): starts from `prev` (the former last node) to `slow`.
+        
+        # Step 3: Merge the two halves together
+        first, second = head, prev
+        while second.next:
+            # Save the next nodes for both halves
+            tmp1 = first.next
+            tmp2 = second.next
+            
+            # Reorder the pointers to create the alternating sequence
+            first.next = second    # Point the next of the current node in the first half to the first node in the second half
+            second.next = tmp1     # Point the next of the current node in the second half to the next node in the first half
+            
+            # Move the pointers forward to the next pair of nodes to process
+            first = tmp1
+            second = tmp2
+        
+        # The list is now reordered as required, and the function completes.
