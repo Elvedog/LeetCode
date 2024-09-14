@@ -1,0 +1,48 @@
+You are given two non-empty linked lists, l1 and l2, where each represents a non-negative integer.
+
+The digits are stored in reverse order, e.g. the number 123 is represented as 3 -> 2 -> 1 -> in the linked list.
+
+Each of the nodes contains a single digit. You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Return the sum of the two numbers as a linked list
+
+
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        # Initialize a dummy node to simplify edge cases
+        dummy_head = ListNode()
+        current = dummy_head
+        carry = 0
+        
+        # Traverse both lists until both are fully processed
+        while l1 or l2 or carry:
+            # Get the current values (0 if the node is missing)
+            val1 = l1.val if l1 else 0
+            val2 = l2.val if l2 else 0
+            
+            # Compute the sum of the two digits plus the carry
+            total = val1 + val2 + carry
+            
+            # Update the carry (e.g., 12 => carry = 1, digit = 2)
+            carry = total // 10
+            current_digit = total % 10
+            
+            # Create a new node for the current digit and move the pointer
+            current.next = ListNode(current_digit)
+            current = current.next
+            
+            # Move to the next nodes in l1 and l2 if available
+            if l1:
+                l1 = l1.next
+            if l2:
+                l2 = l2.next
+        
+        # Return the sum list starting from the next node (skip dummy head)
+        return dummy_head.next
